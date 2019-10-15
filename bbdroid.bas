@@ -2,7 +2,7 @@
 shell "clear"
 cls
 color 7
-print "##     BlackBerry Android Backup & Restore V1.0a     ##"
+print "##     BlackBerry Android Backup & Restore V1.1a     ##"
 print "## Developed by Page Telegram 2019, pagetelegram.com ##"
 print "##---------------------------------------------------##"
 print "## [B]ackup ## [R]estore ## [U]nzip Backup ## [Q]uit ##"
@@ -42,7 +42,7 @@ do
    shell "sudo adb devices"
    input "Do you see your device listed above?>",yorn$
     if left$(ucase$(yorn$),1)="N" then goto 2:
-    shell "ls -l *.ab"
+    shell "ls ~/bbdroid/backup/*.ab"
    input "Which file to restore to device?>",fil$
    shell "adb restore ~/bbdroid/backup/"+fil$  
    sleep 10
@@ -67,9 +67,6 @@ do
    shell "sudo add-apt-repository ppa:linuxuprising/java"
    shell "sudo apt-get update"
    shell "sudo apt-get install java-common"
-   rem shell "wget -P ~/bbdroid/ https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
-   rem shell "unzip ~/bbdroid/sdk-tools-linux-4333796.zip ~/bbdroid/"
-   rem shell "rm ~/bbdroid/sdk-tools-linux-4333796.zip"
    shell "apt-get install adb"
    shell "wget -P ~/bbdroid/ https://sourceforge.net/projects/adbextractor/files/android-backup-tookit-20180521.zip"
    shell "unzip *.zip"
