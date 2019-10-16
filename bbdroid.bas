@@ -2,7 +2,7 @@
 shell "clear"
 cls
 color 7
-print "##     BlackBerry Android Backup & Restore V1.1a     ##"
+print "##  BlackBerry Android Media Backup & Restore V1.2a  ##"
 print "## Developed by Page Telegram 2019, pagetelegram.com ##"
 print "##---------------------------------------------------##"
 print "## [B]ackup ## [R]estore ## [U]nzip Backup ## [Q]uit ##"
@@ -29,7 +29,11 @@ do
     input #1,dt$
     close #1
     shell "rm datetime.dat"
-   shell "adb backup -apk -shared -all -f ~/bbdroid/backup/"+dt$+".ab"
+   shell "adb backup -apk -shared -all -f ~/bbdroid/backup/ad"+dt$+".ab"
+   shell "adb pull /sdcard ~/bbdroid/backup/sd"+dt$+".ab"
+   rem print "Now grabbing SMS/Phone Logs"
+   rem shell "adb root"
+   rem shell "adb pull /data/data/com.android.providers.telephony/databases/mmssms.db ~/bbdroid/backup/"
    color 12
    print "Backup finishd! You may now disconnect your device."
    sleep 10
@@ -42,16 +46,22 @@ do
    shell "sudo adb devices"
    input "Do you see your device listed above?>",yorn$
     if left$(ucase$(yorn$),1)="N" then goto 2:
-    shell "ls ~/bbdroid/backup/*.ab"
+    print "SD Card Backups"
+   shell "ls ~/bbdroid/backup/sd*"
+   print "Phone Backups"
+   shell "ls ~/bbdroid/backup/ad*"
    input "Which file to restore to device?>",fil$
    shell "adb restore ~/bbdroid/backup/"+fil$  
    sleep 10
    goto 0:
   case "U":
-   shell "ls ~/bbdroid/backup/*.ab"
+   print "SD Card Backups"
+   shell "ls ~/bbdroid/backup/sd*"
+   print "Phone Backups"
+   shell "ls ~/bbdroid/backup/ad*"
    input "Which file to unzip?>",fil$
    input "What is your password for encrypted file?>",pass$
-   dr$=right$(left$(fil$,3),12)
+   dr$=left$(fil$,17)
    shell "mkdir ~/bbdroid/backup/"+dr$+"/"
    shell "java -jar ~/bbdroid/backup/abe.jar unpack ~/bbdroid/backup/"+fil$+" ~/bbdroid/backup/"+dr$+"/current.tar "+pass$
    shell "tar -xvf ~/bbdroid/backup/"+dr$+"/current.tar -C ~/bbdroid/backup/"+dr$+"/"
