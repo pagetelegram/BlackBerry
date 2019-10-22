@@ -43,7 +43,7 @@ do
    sleep 2
    print "Press any key to continue...."
    sleep
-   shell "sudo adb devices"
+   shell "adb devices"
    input "Do you see your device listed above?>",yorn$
     if left$(ucase$(yorn$),1)="N" then goto 2:
     print "SD Card Backups"
@@ -62,6 +62,7 @@ do
    input "Which file to unzip?>",fil$
    input "What is your password for encrypted file?>",pass$
    dr$=left$(fil$,17)
+   shell "echo on"
    shell "mkdir ~/bbdroid/backup/"+dr$+"/"
    shell "java -jar ~/bbdroid/backup/abe.jar unpack ~/bbdroid/backup/"+fil$+" ~/bbdroid/backup/"+dr$+"/current.tar "+pass$
    shell "tar -xvf ~/bbdroid/backup/"+dr$+"/current.tar -C ~/bbdroid/backup/"+dr$+"/"
